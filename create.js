@@ -2,9 +2,11 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test4.db');
 
 let schema = `
-create table maker(
+create table nogi(
   id integer primary key,
-  name text not null
+  name text not null,
+  pref text not null,
+  
 );
 `
 

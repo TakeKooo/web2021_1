@@ -55,7 +55,7 @@ app.get("/top", (req, res) => {
 
 app.post("/insert", (req, res) => {
   let sql = `
-insert into example (都道府県,人口,大学) values ("` + req.body.name + `",` + req.body.jinko + `,` + req.body.daigaku + `);
+insert into example (id,都道府県,人口,大学) values (`+ req.body.id +`,"` + req.body.name + `",` + req.body.jinko + `,` + req.body.daigaku + `);
 `
   console.log(sql);
   db.serialize(() => {

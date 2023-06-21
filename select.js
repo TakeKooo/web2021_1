@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test4.db');
+const db = new sqlite3.Database('test.db');
 
 let sql = `
 select drink.id, drink.name, maker.name as name2 from drink inner join maker on drink.maker_id = maker.id;
