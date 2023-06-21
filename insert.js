@@ -1,8 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test3.db');
+const db = new sqlite3.Database('test4.db');
 
 let sql = `
-insert into car ("name","maker_id") values ("VEZEL",1);
+insert into drink ("name","maker_id") values ("ゼリー×スパークリング",4);
 `
 
 db.serialize( () => {

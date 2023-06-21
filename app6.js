@@ -9,34 +9,46 @@ app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   const message = "Hello world";
-  res.render('show', {mes:message});
+  res.render('show', { mes: message });
 });
 
 app.get("/db", (req, res) => {
-    db.serialize( () => {
-        db.all("select id, 都道府県, 人口 from example;", (error, row) => {
-            if( error ) {
-                res.render('show', {mes:"エラーです"});
-            }
-            res.render('select', {data:row});
-        })
+  db.serialize(() => {
+    db.all("select id, 都道府県, 人口 from example;", (error, row) => {
+      if (error) {
+        res.render('show', { mes: "エラーです" });
+      }
+      res.render('select', { data: row });
     })
+  })
 })
-app.get("/top", (req, res) => {
-    //console.log(req.query.pop);    // ①
-    let desc = "";
-    if( req.query.desc ) desc = " desc";
-    let sql = "select id, 都道府県, 人口 from example order by 人口" + desc + " limit " + req.query.pop + ";";
-    //console.log(sql);    // ②
-    db.serialize( () => {
-        db.all(sql, (error, data) => {
-            if( error ) {
-                res.render('show', {mes:"エラーです"});
-            }
-            //console.log(data);    // ③
-            res.render('select', {data:data});
-        })
+
+app.get("/db/:id", (req, res) => {
+  db.serialize(() => {
+    db.all("select id, 都道府県, 人口, 大学 from example where id=" + req.params.id + ";", (error, row) => {
+      if (error) {
+        res.render('show', { mes: "エラーです" });
+      }
+      res.render('db', { data: row });
     })
+  })
+})
+
+app.get("/top", (req, res) => {
+  //console.log(req.query.pop);    // ①
+  let desc = "";
+  if (req.query.desc) desc = " desc";
+  let sql = "select id, 都道府県, 人口 from example order by 人口" + desc + " limit " + req.query.pop + ";";
+  //console.log(sql);    // ②
+  db.serialize(() => {
+    db.all(sql, (error, data) => {
+      if (error) {
+        res.render('show', { mes: "エラーです" });
+      }
+      //console.log(data);    // ③
+      res.render('select', { data: data });
+    })
+  })
 })
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');

@@ -1,8 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test3.db');
+const db = new sqlite3.Database('test4.db');
 
 let sql = `
-select car.id, car.name, maker.name as name2 from car inner join maker on car.maker_id = maker.id;
+select drink.id, drink.name, maker.name as name2 from drink inner join maker on drink.maker_id = maker.id;
 `
 
 db.serialize(() => {
