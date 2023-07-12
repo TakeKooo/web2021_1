@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   const message = "乃木坂46";
   res.render('show', { mes: message });
 });
- 
+
 app.get("/member", (req, res) => {
   db.serialize(() => {
     db.all("select member.id as id, member.name as name, member.class as class, prof.pref as pref, prof.birth as birth from member inner join prof on member.id = prof.id;", (error, row) => {
