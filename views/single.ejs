@@ -1,0 +1,24 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>乃木坂46</title>
+</head>
+<body>
+  <h2><a href ="/">発売シングル一覧</a></h2>
+  <table>
+      <td>#</td>
+      <td>タイトル</td>
+      <td>リリース日</td>
+      <% for( let row of data ) { %>
+        <tr>
+          <td><%= row.id %>枚目　</td>
+          <td><%= row.title %>　</td>
+          <td><%= row.release %></td>
+        </tr>
+      <% } %>
+  </table>
+  <br>
+  <a href="public/insert_single.html">シングルのデータを追加する</a>
+</body>
+</html>

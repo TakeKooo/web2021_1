@@ -2,19 +2,27 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Show message</title>
+  <title>乃木坂46</title>
 </head>
 <body>
-  <h2>都道府県ごとの人口</h2>
+  <h2><a href ="/">メンバー一覧(卒業生含む)</a></h2>
   <table>
+      <td>ID</td>
+      <td>名前</td>
+      <td>期</td>
+      <td>出身</td>
+      <td>誕生日</td>
       <% for( let row of data ) { %>
         <tr>
-            <td><a href="/db/<%= row.id %>"><%= row.id %></a></td>
-            <td><a href="/db/<%= row.id %>"><%= row.都道府県 %></a></td>
-            <td><%= row.人口 %></td>
+          <td><%= row.id %>　</td>
+          <td><%= row.name %></td>
+          <td><%= row.class %>期生　</td>
+          <td><%= row.pref %>　</td>
+          <td><%= row.birth %>　</td>
         </tr>
       <% } %>
   </table>
-  <a href="public/insert.html">データを追加する</a>
+  <br>
+  <a href="public/insert_member.html">メンバーのデータを追加する</a>
 </body>
 </html>

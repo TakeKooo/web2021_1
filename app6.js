@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test.db');
+const db = new sqlite3.Database('report.db');
 
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
@@ -10,13 +10,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  const message = "Hello world";
+  const message = "乃木坂46";
   res.render('show', { mes: message });
 });
 
-app.get("/db", (req, res) => {
+app.get("/member", (req, res) => {
   db.serialize(() => {
-    db.all("select id, 都道府県, 人口 from example;", (error, row) => {
+    db.all("select member.id as id, member.name as name, member.class as class, prof.pref as pref, prof.birth as birth from member inner join prof on member.id = prof.id;", (error, row) => {
       if (error) {
         res.render('show', { mes: "エラーです" });
       }
@@ -25,37 +25,20 @@ app.get("/db", (req, res) => {
   })
 })
 
-app.get("/db/:id", (req, res) => {
+app.get("/single", (req, res) => {
   db.serialize(() => {
-    db.all("select id, 都道府県, 人口, 大学 from example where id=" + req.params.id + ";", (error, row) => {
+    db.all("select id, title, release from single;", (error, row) => {
       if (error) {
         res.render('show', { mes: "エラーです" });
       }
-      res.render('db', { data: row });
+      res.render('single', { data: row });
     })
   })
 })
 
-app.get("/top", (req, res) => {
-  //console.log(req.query.pop);    // ①
-  let desc = "";
-  if (req.query.desc) desc = " desc";
-  let sql = "select id, 都道府県, 人口 from example order by 人口" + desc + " limit " + req.query.pop + ";";
-  //console.log(sql);    // ②
-  db.serialize(() => {
-    db.all(sql, (error, data) => {
-      if (error) {
-        res.render('show', { mes: "エラーです" });
-      }
-      //console.log(data);    // ③
-      res.render('select', { data: data });
-    })
-  })
-})
-
-app.post("/insert", (req, res) => {
+app.post("/insert_member", (req, res) => {
   let sql = `
-insert into example (id,都道府県,人口,大学) values (`+ req.body.id +`,"` + req.body.name + `",` + req.body.jinko + `,` + req.body.daigaku + `);
+insert into member ("name","class") values ("` + req.body.name + `",` + req.body.class +` );
 `
   console.log(sql);
   db.serialize(() => {
@@ -64,7 +47,41 @@ insert into example (id,都道府県,人口,大学) values (`+ req.body.id +`,"`
       if (error) {
         res.render('show', { mes: "エラーです" });
       }
-      res.redirect('/db');
+      res.redirect('public/insert_prof.html');
+    });
+  });
+  console.log(req.body);
+});
+
+app.post("/insert_prof", (req, res) => {
+  let sql = `
+insert into prof ("pref","birth") values ("` + req.body.pref + `","` + req.body.birth +`" );
+`
+  console.log(sql);
+  db.serialize(() => {
+    db.run(sql, (error, row) => {
+      console.log(error);
+      if (error) {
+        res.render('show', { mes: "エラーです" });
+      }
+      res.redirect('/member');
+    });
+  });
+  console.log(req.body);
+});
+
+app.post("/insert_single", (req, res) => {
+  let sql = `
+insert into single ("title","release") values ("` + req.body.title + `","` + req.body.release + `");
+`
+  console.log(sql);
+  db.serialize(() => {
+    db.run(sql, (error, row) => {
+      console.log(error);
+      if (error) {
+        res.render('show', { mes: "エラーです" });
+      }
+      res.redirect('/single');
     });
   });
   console.log(req.body);
