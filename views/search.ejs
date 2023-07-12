@@ -1,0 +1,28 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>乃木坂46</title>
+</head>
+<body>
+  <h2><a href ="/">メンバー一覧(卒業生含む)</a></h2>
+  <table>
+      <td>ID</td>
+      <td>名前</td>
+      <td>期</td>
+      <td>出身</td>
+      <td>誕生日</td>
+      <% for( let row of data ) { %>
+        <tr>
+          <td><%= row.id %>　</td>
+          <td><%= row.name %></td>
+          <td><%= row.class %>期生　</td>
+          <td><%= row.pref %>　</td>
+          <td><%= row.birth %>　</td>
+        </tr>
+      <% } %>
+  </table>
+  <br>
+  <a href="public/input01.html">検索に戻る</a>
+</body>
+</html>
