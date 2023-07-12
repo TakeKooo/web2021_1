@@ -87,6 +87,20 @@ insert into single ("title","release") values ("` + req.body.title + `","` + req
   console.log(req.body);
 });
 
+app.get("/sort", (req, res) => {
+    let desc = "";
+    if( req.query.desc ) desc = " desc";
+    let sql =`select member.id as id, member.name as name, member.class as class, prof.pref as pref, prof.birth as birth from member inner join prof on member.id = prof.id where pref = "` + req.query.pref +`";`;
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            res.render('search', {data:data});
+        })
+    })
+})
+
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');
 });
